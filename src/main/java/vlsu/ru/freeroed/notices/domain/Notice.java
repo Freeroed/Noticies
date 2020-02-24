@@ -1,6 +1,8 @@
 package vlsu.ru.freeroed.notices.domain;
 
-public class Notice {
+import java.io.Serializable;
+
+public class Notice extends Throwable{
     private int id;
 
     private String name;

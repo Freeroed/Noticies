@@ -2,12 +2,15 @@ package vlsu.ru.freeroed.notices.web.rest;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import vlsu.ru.freeroed.notices.dao.NoticieDAO;
 import vlsu.ru.freeroed.notices.domain.Notice;
+import vlsu.ru.freeroed.notices.exteption.NotFoundExceprion;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -17,6 +20,7 @@ public class NoticeResource {
     NoticieDAO noticieDAO;
 
     private static final Logger logger = Logger.getLogger(NoticeResource.class);
+
 
     @GetMapping("/noticies")
     public String getAllNoticies(Model model){
@@ -33,7 +37,7 @@ public class NoticeResource {
     }
     @PostMapping("/noticies/create")
     public String create(@ModelAttribute("emp") Notice notice){
-        logger.debug("Controller request for create notice: {}" + notice.toString());
+        logger.debug("Controller request for create notice: {}", notice);
         noticieDAO.create(notice);
         return "redirect:/noticies";
     }
@@ -47,16 +51,22 @@ public class NoticeResource {
 
     @PostMapping("/save")
     public String save(@ModelAttribute("emp") Notice notice){
-        logger.debug("Controller request for update notice: {}" + notice.toString());
+        logger.debug("Controller request for update notice: {}", notice);
         noticieDAO.update(notice);
         return "redirect:/noticies";
     }
 
     @GetMapping("/delete-notice/{id}")
     public String delete(@PathVariable int id){
-        logger.debug("Controller request for delete notice with id: {}" + id);
+        logger.debug("Controller request for delete notice with id: " +  id);
         noticieDAO.delete(id);
         return "redirect:/noticies";
+    }
+
+    @ExceptionHandler(NotFoundExceprion.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "NOT FOUND")
+    public void hendleNotFoundExceprion(NotFoundExceprion exceprion, HttpStatus response) throws IOException{
+
     }
 
 

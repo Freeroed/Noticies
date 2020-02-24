@@ -9,7 +9,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<p align="center">Новое животное: </p>
+<p align="center">Create Notice: </p>
 <form:form method="post" action="create">
     <table align="center" border="3">
         <tr>
